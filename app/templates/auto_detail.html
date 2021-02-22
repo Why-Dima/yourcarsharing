@@ -230,22 +230,22 @@
                                                                         <div id="big_banner">
                                                                             <div class="port_big_img">
                                                                                 <img class="img img-fluid"
-                                                                                    src="/assets/images/auto/auto1_1.jpg"
+                                                                                    src="/assets/images/auto/{{ car.img_url }}"
                                                                                     alt="Big_ Details">
                                                                             </div>
                                                                             <div class="port_big_img">
                                                                                 <img class="img img-fluid"
-                                                                                    src="/assets/images/auto/auto1_2.jpg"
+                                                                                    src="/assets/images/auto/{{ car.img_url2 }}"
                                                                                     alt="Big_ Details">
                                                                             </div>
                                                                             <div class="port_big_img">
                                                                                 <img class="img img-fluid"
-                                                                                    src="/assets/images/auto/auto1_3.jpg"
+                                                                                    src="/assets/images/auto/{{ car.img_url3 }}"
                                                                                     alt="Big_ Details">
                                                                             </div>
                                                                             <div class="port_big_img">
                                                                                 <img class="img img-fluid"
-                                                                                    src="/assets/images/auto/auto1_4.jpg"
+                                                                                    src="/assets/images/auto/{{ car.img_url4 }}"
                                                                                     alt="Big_ Details">
                                                                             </div>
                                                                         </div>
@@ -254,22 +254,22 @@
                                                                         <div id="small_banner">
                                                                             <div>
                                                                                 <img class="img img-fluid"
-                                                                                    src="/assets/images/auto/auto1_1.jpg"
+                                                                                    src="/assets/images/auto/{{ car.img_url }}"
                                                                                     alt="small-details">
                                                                             </div>
                                                                             <div>
                                                                                 <img class="img img-fluid"
-                                                                                    src="/assets/images/auto/auto1_2.jpg"
+                                                                                    src="/assets/images/auto/{{ car.img_url2 }}"
                                                                                     alt="small-details">
                                                                             </div>
                                                                             <div>
                                                                                 <img class="img img-fluid"
-                                                                                    src="/assets/images/auto/auto1_3.jpg"
+                                                                                    src="/assets/images/auto/{{ car.img_url3 }}"
                                                                                     alt="small-details">
                                                                             </div>
                                                                             <div>
                                                                                 <img class="img img-fluid"
-                                                                                    src="/assets/images/auto/auto1_4.jpg"
+                                                                                    src="/assets/images/auto/{{ car.img_url4 }}"
                                                                                     alt="small-details">
                                                                             </div>
                                                                         </div>
@@ -286,7 +286,7 @@
                                                                             </span>
                                                                             <span class="txt-muted d-block">Доступность:
                                                                                 <span
-                                                                                    class="text-primary">{{ car.availability }}</span>
+                                                                                    class="text-primary">{% if car.availability == True %}{{ 'Свободно' }}{% else %}{{ 'Занято' }}{% endif %}</span>
                                                                             </span>
                                                                         </div>
                                                                         <div class="col-lg-12">
@@ -295,7 +295,7 @@
                                                                         </div>
                                                                         <div class="col-lg-12">
                                                                             <span class="txt-muted">Автоматическая КПП:
-                                                                                {{ transmission }}
+                                                                                {% if car.transmission == True %}{{ 'ДА' }}{% else %}{{ 'НЕТ' }}{% endif %}
                                                                             </span>
                                                                         </div>
                                                                         <div
@@ -312,37 +312,37 @@
                                                                         </div>
                                                                         <div class="col-lg-12">
                                                                             <span
-                                                                                class="text-primary product-price">{{ car.price }}
+                                                                                class="text-primary product-price">{{ car.rent_price }}
                                                                                 руб/мин</span>
                                                                             <hr>
-                                                                            <p>{{ auto_description }}
+                                                                            <p>{{ age1 }}
                                                                             </p>
                                                                             <hr>
                                                                         </div>
                                                                         <div
                                                                             class="col-lg-12 col-sm-12 mob-product-btn">
-                                                                            <form action="/rent_auto/{{ car.id }}" method="post"
+                                                                            <form action="/rent_car/{{ car.id }}" method="post"
                                                                                 class="d-inline-block">
-                                                                                <button type="butthon"
+                                                                                <button type="submit"
                                                                                     class="btn btn-success waves-effect waves-light m-r-20">
                                                                                     <i
                                                                                         class="icofont icofont-cart-alt f-16"></i>
                                                                                     <span
-                                                                                        class="m-l-10">Арендовать</span>
+                                                                                        class="m-l-10">{% if car.availability %}Арендовать{% else %}Освободить{% endif %}</span>
                                                                                 </button>
                                                                             </form>
-                                                                            <form action="" method="post"
-                                                                                class="d-inline-block">
-                                                                                <button type="button"
+                                                                            <a href="/change_auto/{{ car.id }}" methods="post" class="hvr-shrink">
+                                                                                
+                                                                                <button type="submit"
                                                                                     class="btn btn-outline-primary waves-effect waves-light m-r-20">
                                                                                     <i
                                                                                         class="icofont icofont-edit f-16"></i>
                                                                                     <span class="m-l-10">Изменить</span>
                                                                                 </button>
-                                                                            </form>
-                                                                            <form action="" method="post"
+                                                                            </a>
+                                                                            <form action="/del_auto/{{ car.id }}" method="post"
                                                                                 class="d-inline-block">
-                                                                                <button type="button"
+                                                                                <button type="submit"
                                                                                     class="btn btn-outline-danger waves-effect waves-light m-r-20">
                                                                                     <i
                                                                                         class="icofont icofont-ui-delete f-16"></i>
@@ -389,7 +389,7 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <th scope="row">1</th>
-                                                                    <td>{{ date_and_time_rent_bigin }}</td>
+                                                                    <td>{{ car.pr.time_begin }}</td>
                                                                     <td>{{ date_and_time_rent_end }}</td>
                                                                     <td>{{ total_cost_of_rent }}</td>
                                                                 </tr>
