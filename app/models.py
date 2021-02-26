@@ -22,10 +22,10 @@ class Car(db.Model):
 
 class Journal(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    auto_info = db.Column(db.Integer, db.ForeignKey('car.id'))
-    time_begin = db.Column(db.DateTime, default = datetime.now())
-    time_end = db.Column(db.DateTime, default = datetime.now())
-    total_cost = db.Column(db.Integer, default = 2)
+    car_id = db.Column(db.Integer, db.ForeignKey('car.id'))
+    time_begin = db.Column(db.DateTime, default = datetime.utcnow)
+    time_end = db.Column(db.DateTime, default = datetime.utcnow)
+    total_cost = db.Column(db.Integer, default = 1)
 
-#uselist=False
+
 

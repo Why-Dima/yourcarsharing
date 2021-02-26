@@ -254,8 +254,8 @@
                                                                                     <span>{{ car.description }}</span>
                                                                                 </td>
                                                                                 <td>{{ car.num_book }}</td>
-                                                                                <td>{{ car.total_time }}</td>
-                                                                                <td>{{ car.total_rent }}</td>
+                                                                                <td>{{ car.total_time//60 }} мин {{ car.total_time%60 }} сек</td>
+                                                                                <td>{{ car.total_rent }} руб</td>
                                                                                 
                                                                             </tr>
 

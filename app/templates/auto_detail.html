@@ -315,7 +315,7 @@
                                                                                 class="text-primary product-price">{{ car.rent_price }}
                                                                                 руб/мин</span>
                                                                             <hr>
-                                                                            <p>{{ age1 }}
+                                                                            <p>{{ car.description }}
                                                                             </p>
                                                                             <hr>
                                                                         </div>
@@ -380,25 +380,21 @@
                                                         <table class="table table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th scope="col">#</th>
+                                                                    <th scope="col">Номер аренды</th>
                                                                     <th scope="col">Дата начала аренды</th>
                                                                     <th scope="col">Дата завершения аренды</th>
                                                                     <th scope="col">Общая стоимость аренды</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
+                                                                {% for jornal in list_jornals %}
                                                                 <tr>
-                                                                    <th scope="row">1</th>
-                                                                    <td>{{ car.pr.time_begin }}</td>
-                                                                    <td>{{ date_and_time_rent_end }}</td>
-                                                                    <td>{{ total_cost_of_rent }}</td>
+                                                                    <th scope="row">{{ jornal.id }}</th>
+                                                                    <td>{{ jornal.time_begin }}</td>
+                                                                    <td>{{ jornal.time_end }}</td>
+                                                                    <td>{{ jornal.total_cost }}</td>
                                                                 </tr>
-                                                                <tr>
-                                                                    <th scope="row">2</th>
-                                                                    <td>{{ date_and_time_rent_bigin }}</td>
-                                                                    <td>{{ date_and_time_rent_end }}</td>
-                                                                    <td>{{ total_cost_of_rent }}</td>
-                                                                </tr>
+                                                                {% endfor %}
                                                             </tbody>
                                                         </table>
                                                     </div>

@@ -19,23 +19,31 @@ def index():
 @app.route('/auto_detail/<int:car_id>', methods=['GET', 'POST'])
 def auto_detail(car_id):
     
-
     car = Car.query.get(car_id)
 
-    #res = db.session.query(Car, Journal).join(Journal, Car.id == Journal.auto_info).all()
+    list_jornal = car.pr
+
+    list_jornals = []
+
+    for jornal in list_jornal:
+        id = jornal.id
+        car_id = jornal.car_id
+        time_begin = jornal.time_begin.strftime("%d.%m.%Y %H:%M:%S")
+        time_end = jornal.time_end.strftime("%d.%m.%Y %H:%M:%S")
+        total_cost = jornal.total_cost
     
-    return render_template('auto_detail.html', car=car)
+        list_jornals.append({'id':id, 'car_id':car_id, 'time_begin':time_begin, 'time_end':time_end, 'total_cost':total_cost})
+
+    
+    return render_template('auto_detail.html', car=car, list_jornals=list_jornals)
 
 
 @app.route('/rent_car/<int:car_id>', methods=['GET', 'POST'])
 def rent_car(car_id):
 
-    journa = Journal.query.all()
-    #res = db.session.query(Car, Journal).join(Journal, Car.id == Journal.auto_info).all()
-
-
-
     car = Car.query.get(car_id)
+
+    journal = Journal.query.all()
     
     if request.method == 'POST':
 
@@ -44,25 +52,26 @@ def rent_car(car_id):
         
         if car.availability == False:
             car.created = datetime.now() 
+            time_begin = datetime.now()
+            time_end = None
             car.num_book += 1
+            db.session.add(Journal(car_id=car_id, time_begin=time_begin, time_end=time_end))
+            db.session.commit()
         db.session.commit()
         
 
     age_seconds = (datetime.now() - car.created).seconds
-    rent = int(car.rent_price)
-    age1 = age_seconds*rent/60
-    car.total_time += age1
+    car.total_time += age_seconds
     car.total_rent = car.total_time * car.rent_price / 60
     db.session.commit()
-    if car.availability == False:
-        for journal in journa:
-            journal.time_begin = datetime.now()
-            db.session.commit()
 
+    if car.availability == True:
+        journal[-1].time_end = datetime.now()
+        journal[-1].total_cost = (journal[-1].time_end - car.created).seconds * car.rent_price/60
+    
+    db.session.commit()
 
-
-
-    return render_template('auto_detail.html', car=car,age1=age1)
+    return render_template('auto_detail.html', car=car)
 
 
 
@@ -112,13 +121,8 @@ def create_auto():
 @app.route('/rental_log', methods=['GET', 'POST'])
 def rental_log():
     
-    
     car_list = Car.query.all()
     context = {'car_list':car_list}
-
-
-    
-    
     
     return render_template('rental_log.html', **context)
 
@@ -172,4 +176,3 @@ def change_auto(car_id):
         db.session.commit()
 
     return render_template('change_auto.html', car=car)
-
